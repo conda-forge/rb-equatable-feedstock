@@ -1,5 +1,5 @@
 {% set name = "equatable" %}
-{% set version = "0.6.1" %}
+{% set version = "0.7.0" %}
 
 package:
   name: rb-{{ name|lower }}
@@ -7,13 +7,14 @@ package:
 
 source:
   url: https://rubygems.org/downloads/{{ name }}-{{ version }}.gem
-  sha256: 8ebe06c62a65d5c008132df677d8d1824c5e7874464d220233d7de087514fd3b
+  sha256: cd99f7bf79439dac5b34ccd33826aef0ef561029ecfa6d32a87c088a688ffe2b
 
 build:
   noarch: generic
-  number: 1
+  number: 0
   script:
-    - gem install --norc -l -V --ignore-dependencies {{ name }}-{{ version }}.gem
+    # - gem install --norc -l -V --ignore-dependencies {{ name }}-{{ version }}.gem
+    - gem install -N -l -V --norc --ignore-dependencies -n $PREFIX/bin {{ name }}-{{ version }}.gem
     - gem unpack {{ name }}-{{ version }}.gem
   skip: {{ win }}
 
@@ -21,7 +22,7 @@ requirements:
   host:
     - ruby
   run:
-    - ruby
+    - {{ pin_compatible('ruby', max_pin='x.x') }}
 
 test:
   commands:
@@ -39,6 +40,4 @@ about:
 extra:
   recipe-maintainers:
     - sodre
-    - rluria14
-    - adbeda
-    - oblute
+    - mxr-conda
